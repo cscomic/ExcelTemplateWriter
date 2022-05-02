@@ -68,6 +68,7 @@ def parse_cell(cell):
     Returns: int|str|None
 
     """
+    cell.get
     VALUE_TAG = '{%s}v' % SHEET_MAIN_NS
     data_type = cell.get('t', 'n')
     value = None
@@ -91,6 +92,7 @@ def get_coordinates(cell,
     Returns: (int, int)
 
     """
+    # TODO: cell.get() may deprecated, later we should check it
     coordinate = cell.get('r')
     if coordinate:
         row, column = coordinate_to_tuple(coordinate)
@@ -99,7 +101,8 @@ def get_coordinates(cell,
     return row, column
 
 
-def parse_row(row, row_counter: int) -> (int | str | None, int):
+def parse_row(row,
+              row_counter):
     """
 
     Returns:
@@ -142,6 +145,15 @@ def parse_sheet(xml_source):
 
 
 def extended_archive_open(archive, name):
+    """
+
+    Args:
+        archive ():
+        name ():
+
+    Returns:
+
+    """
     with archive.open(name, ) as src:
         namespaces = {node[0]: node[1] for _, node in
                       iterparse(src, events=['start-ns'])}
@@ -151,6 +163,14 @@ def extended_archive_open(archive, name):
 
 
 def get_data_strings(xml_source):
+    """
+
+    Args:
+        xml_source ():
+
+    Returns:
+
+    """
     STRING_TAG = '{%s}si' % SHEET_MAIN_NS
     strings = []
     for _, node in iterparse(xml_source):
@@ -161,6 +181,18 @@ def get_data_strings(xml_source):
 
 def load_workbook(filename, read_only=False, keep_vba=False,
                   data_only=False, keep_links=True):
+    """
+
+    Args:
+        filename ():
+        read_only ():
+        keep_vba ():
+        data_only ():
+        keep_links ():
+
+    Returns:
+
+    """
     reader = ExcelReader(filename, read_only, keep_vba,
                          data_only, keep_links)
     reader.read()
@@ -191,6 +223,14 @@ def load_workbook(filename, read_only=False, keep_vba=False,
 
 
 def check_if_lxml(element):
+    """
+
+    Args:
+        element ():
+
+    Returns:
+
+    """
     if type(element).__module__ == 'xml.etree.ElementTree':
         string = xml_tostring(element)
         el = lxml_fromstring(string)
@@ -199,6 +239,14 @@ def check_if_lxml(element):
 
 
 def write_string_table(workbook):
+    """
+
+    Args:
+        workbook ():
+
+    Returns:
+
+    """
     workbook_data = workbook._extended_value_workbook_data
     data_strings = workbook._extended_value_data_strings
     out = BytesIO()
@@ -213,6 +261,14 @@ def write_string_table(workbook):
 
 
 def check_cell(cell):
+    """
+
+    Args:
+        cell ():
+
+    Returns:
+
+    """
     if cell.data_type != 's':
         return False
     if cell._comment is not None:
@@ -223,6 +279,17 @@ def check_cell(cell):
 
 
 def extended_write_cell(xf, worksheet, cell, styled=None):
+    """
+
+    Args:
+        xf ():
+        worksheet ():
+        cell ():
+        styled ():
+
+    Returns:
+
+    """
     workbook_data = worksheet.parent._extended_value_workbook_data
     for sheet in workbook_data.values():
         if (cell.row, cell.column) in sheet and check_cell(cell):

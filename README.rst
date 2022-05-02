@@ -34,16 +34,16 @@ ExcelTemplateWriter
 ===================
 
 
-    Add a short description here!
+    For many times, we need to output our data to more easy to read. But actually, it hard for us to make excel file
+    easy to read by setting formatting in code.
 
+    So, why not split the front end and back end:
+      1. user to edit the front end by editing length of column, formatting of value, color and so on
+      2. script output data into file with the template edited by user
 
-A longer description of your project goes here...
-
-
-.. _pyscaffold-notes:
+    This project supply a method of this.
 
 Note
 ====
 
-This project has been set up using PyScaffold 4.1.5. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
+
