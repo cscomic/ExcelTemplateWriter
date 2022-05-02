@@ -26,7 +26,6 @@ from openpyxl.packaging.relationship import Relationship
 from openpyxl.reader.excel import ExcelReader, _validate_archive
 from openpyxl.styles.stylesheet import write_stylesheet
 from openpyxl.utils import coordinate_to_tuple
-from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.workbook._writer import WorkbookWriter
 from openpyxl.worksheet._writer import WorksheetWriter
 from openpyxl.writer.excel import ExcelWriter
