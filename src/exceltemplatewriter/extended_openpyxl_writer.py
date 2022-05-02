@@ -8,7 +8,7 @@
 # @License  :
 # @Desc     : An Excel file writer to write excel files with keeping format and formula, source from:
 #              https://stackoverflow.com/questions/52878615/how-to-keep-style-format-unchanged-after-writing-data-using-openpyxl-package-in
-
+from __future__ import annotations
 
 from io import BytesIO
 from xml.etree.ElementTree import register_namespace
@@ -37,13 +37,14 @@ from openpyxl.xml.functions import iterparse, xmlfile, tostring
 DEFAULT_OVERRIDE.append(Override("/" + ARC_SHARED_STRINGS, SHARED_STRINGS))
 
 
-def to_integer(value):
+def to_integer(value) -> int:
     """
+    Parse value to integer
+    Args:
+        value (any): 
 
-    :param value:
-    :type value:
-    :return:
-    :rtype:
+    Returns: int|None
+
     """
     if type(value) == int:
         return value
@@ -59,6 +60,14 @@ def to_integer(value):
 
 
 def parse_cell(cell):
+    """
+    Parse value in cell
+    Args:
+        cell (any): 
+
+    Returns: int|str|None
+
+    """
     VALUE_TAG = '{%s}v' % SHEET_MAIN_NS
     data_type = cell.get('t', 'n')
     value = None
@@ -69,7 +78,19 @@ def parse_cell(cell):
     return value
 
 
-def get_coordinates(cell, row_counter, col_counter):
+def get_coordinates(cell,
+                    row_counter: int,
+                    col_counter: int) -> (int, int):
+    """
+
+    Args:
+        cell ():
+        row_counter ():
+        col_counter ():
+
+    Returns: (int, int)
+
+    """
     coordinate = cell.get('r')
     if coordinate:
         row, column = coordinate_to_tuple(coordinate)
@@ -78,7 +99,12 @@ def get_coordinates(cell, row_counter, col_counter):
     return row, column
 
 
-def parse_row(row, row_counter):
+def parse_row(row, row_counter: int) -> (int | str | None, int):
+    """
+
+    Returns:
+        object: 
+    """
     row_counter = to_integer(row.get('r', row_counter + 1))
     col_counter = 0
     data = dict()
@@ -93,6 +119,14 @@ def parse_row(row, row_counter):
 
 
 def parse_sheet(xml_source):
+    """
+
+    Args:
+        xml_source ():
+
+    Returns:
+
+    """
     ROW_TAG = '{%s}row' % SHEET_MAIN_NS
     row_counter = 0
     it = iterparse(xml_source)
